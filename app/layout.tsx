@@ -58,6 +58,54 @@ export default function RootLayout({
                   >
                     Alerts
                   </a>
+                  <a
+                    href="/lots"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Lots
+                  </a>
+                  <a
+                    href="/serials"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Serials
+                  </a>
+                  <a
+                    href="/movements"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Movements
+                  </a>
+                  <a
+                    href="/customers"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Customers
+                  </a>
+                  <a
+                    href="/vendors"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Vendors
+                  </a>
+                  <a
+                    href="/bom"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    BOM
+                  </a>
+                  <a
+                    href="/analytics/margins"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Margins
+                  </a>
+                  <a
+                    href="/analytics/categories"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Categories
+                  </a>
                 </div>
               </div>
             </div>

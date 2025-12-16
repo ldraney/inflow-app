@@ -83,9 +83,15 @@ export default function InventoryPage() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {inventory.map((item) => (
-              <tr key={item.product_id} className="hover:bg-gray-50">
+              <tr
+                key={item.product_id}
+                className="hover:bg-gray-50 cursor-pointer"
+                onClick={() => (window.location.href = `/inventory/${item.product_id}`)}
+              >
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="font-medium text-gray-900">{item.name}</div>
+                  <div className="font-medium text-gray-900 text-blue-600 hover:text-blue-800">
+                    {item.name}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-500">
                   {item.sku}

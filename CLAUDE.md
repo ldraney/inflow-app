@@ -102,7 +102,9 @@ inflow-app/
 │   ├── page.tsx                 # Dashboard
 │   ├── layout.tsx               # Navigation + layout
 │   ├── inventory/
-│   │   └── page.tsx             # Inventory list
+│   │   ├── page.tsx             # Inventory list
+│   │   └── [id]/
+│   │       └── page.tsx         # Inventory detail
 │   ├── locations/
 │   │   ├── page.tsx             # Location summary cards + detail
 │   │   └── alerts/
@@ -113,14 +115,42 @@ inflow-app/
 │   │   └── page.tsx             # Order history
 │   ├── alerts/
 │   │   └── page.tsx             # Reorder alerts
+│   ├── lots/
+│   │   └── page.tsx             # Lot inventory
+│   ├── serials/
+│   │   └── page.tsx             # Serial inventory
+│   ├── movements/
+│   │   └── page.tsx             # Stock movement ledger
+│   ├── customers/
+│   │   └── page.tsx             # Customer profiles
+│   ├── vendors/
+│   │   └── page.tsx             # Vendor scorecard
+│   ├── bom/
+│   │   └── page.tsx             # Bill of materials
+│   ├── analytics/
+│   │   ├── margins/
+│   │   │   └── page.tsx         # Product margins
+│   │   └── categories/
+│   │       └── page.tsx         # Category summary
 │   └── api/
-│       ├── inventory/route.ts
+│       ├── inventory/
+│       │   ├── route.ts         # product_inventory_status
+│       │   └── detail/route.ts  # inventory_detail
 │       ├── locations/
 │       │   ├── route.ts         # inventory_by_location, location_stock_summary
 │       │   └── alerts/route.ts  # location_reorder_alerts
 │       ├── transfers/route.ts   # transfer_pipeline
 │       ├── orders/route.ts      # order_history, open_orders_unified
-│       └── alerts/route.ts      # reorder_alerts
+│       ├── alerts/route.ts      # reorder_alerts
+│       ├── lots/route.ts        # lot_inventory
+│       ├── serials/route.ts     # serial_inventory
+│       ├── movements/route.ts   # stock_movement_ledger
+│       ├── customers/route.ts   # customer_360
+│       ├── vendors/route.ts     # vendor_scorecard
+│       ├── bom/route.ts         # bom_costed
+│       └── analytics/
+│           ├── margins/route.ts     # product_margin
+│           └── categories/route.ts  # category_inventory_summary
 ├── lib/
 │   └── db.ts                    # Drizzle database connection
 ├── scripts/
@@ -210,9 +240,11 @@ The SQLite file must be included in deployment or seeded on first run. Options:
 
 ## Next Steps
 
-**Continue implementing views.** The app needs a UI page for each of the 19 views from `inflow-materialize`. Currently 8/19 are done.
+**Continue implementing views.** The app needs a UI page for each of the 19 views from `inflow-materialize`. Currently 17/19 are done.
 
-**Next up: Phase 2 - Advanced Inventory Tracking**
+**Next up: Phase 4 - Time-Series & Insights**
+
+Note: Phase 3 views use raw SQL queries instead of the `inflow-materialize` views due to schema mismatches between the views and the actual Inflow API data.
 
 To implement each view:
 1. Check the schema: `sqlite3 data/inflow.db "PRAGMA table_info(<view_name>);"`
@@ -247,7 +279,7 @@ Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-mat
 
 ## Roadmap: View Implementation Status
 
-### ✅ Implemented (8/19)
+### ✅ Implemented (17/19)
 
 | View | Page | API Route |
 |------|------|-----------|
@@ -259,25 +291,15 @@ Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-mat
 | `location_stock_summary` | `/locations` | `/api/locations?view=summary` |
 | `location_reorder_alerts` | `/locations/alerts` | `/api/locations/alerts` |
 | `transfer_pipeline` | `/transfers` | `/api/transfers` |
-
-### 🚧 Phase 2: Advanced Inventory Tracking
-
-| View | Planned Page | Priority |
-|------|--------------|----------|
-| `inventory_detail` | `/inventory/[id]` (detail view) | High |
-| `lot_inventory` | `/lots` | Medium |
-| `serial_inventory` | `/serials` | Medium |
-| `stock_movement_ledger` | `/movements` | Low |
-
-### 🚧 Phase 3: Business Analytics
-
-| View | Planned Page | Priority |
-|------|--------------|----------|
-| `customer_360` | `/customers` | High |
-| `vendor_scorecard` | `/vendors` | High |
-| `product_margin` | `/analytics/margins` | Medium |
-| `category_inventory_summary` | `/analytics/categories` | Medium |
-| `bom_costed` | `/bom` | Low |
+| `inventory_detail` | `/inventory/[id]` | `/api/inventory/detail` |
+| `lot_inventory` | `/lots` | `/api/lots` |
+| `serial_inventory` | `/serials` | `/api/serials` |
+| `stock_movement_ledger` | `/movements` | `/api/movements` |
+| `customer_360` | `/customers` | `/api/customers` |
+| `vendor_scorecard` | `/vendors` | `/api/vendors` |
+| `product_margin` | `/analytics/margins` | `/api/analytics/margins` |
+| `category_inventory_summary` | `/analytics/categories` | `/api/analytics/categories` |
+| `bom_costed` | `/bom` | `/api/bom` |
 
 ### 🚧 Phase 4: Time-Series & Insights
 
