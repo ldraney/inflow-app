@@ -106,6 +106,18 @@ export default function RootLayout({
                   >
                     Categories
                   </a>
+                  <a
+                    href="/analytics/velocity"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Velocity
+                  </a>
+                  <a
+                    href="/analytics/dead-stock"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Dead Stock
+                  </a>
                 </div>
               </div>
             </div>

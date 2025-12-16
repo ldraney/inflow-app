@@ -240,18 +240,9 @@ The SQLite file must be included in deployment or seeded on first run. Options:
 
 ## Next Steps
 
-**Continue implementing views.** The app needs a UI page for each of the 19 views from `inflow-materialize`. Currently 17/19 are done.
+**All 19 views implemented!** The app now has a UI page for each view from `inflow-materialize`.
 
-**Next up: Phase 4 - Time-Series & Insights**
-
-Note: Phase 3 views use raw SQL queries instead of the `inflow-materialize` views due to schema mismatches between the views and the actual Inflow API data.
-
-To implement each view:
-1. Check the schema: `sqlite3 data/inflow.db "PRAGMA table_info(<view_name>);"`
-2. Create API route importing from `inflow-materialize/schemas`
-3. Create page component with table/cards
-4. Add to navigation in `layout.tsx`
-5. Update roadmap below
+Note: Some views use raw SQL queries instead of the `inflow-materialize` typed schemas due to schema mismatches between the views and the actual Inflow API data.
 
 All schemas are available: `import { <viewName> } from 'inflow-materialize/schemas'`
 
@@ -279,7 +270,7 @@ Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-mat
 
 ## Roadmap: View Implementation Status
 
-### ✅ Implemented (17/19)
+### ✅ Implemented (19/19) - Complete!
 
 | View | Page | API Route |
 |------|------|-----------|
@@ -300,13 +291,8 @@ Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-mat
 | `product_margin` | `/analytics/margins` | `/api/analytics/margins` |
 | `category_inventory_summary` | `/analytics/categories` | `/api/analytics/categories` |
 | `bom_costed` | `/bom` | `/api/bom` |
-
-### 🚧 Phase 4: Time-Series & Insights
-
-| View | Planned Page | Priority |
-|------|--------------|----------|
-| `product_velocity` | `/analytics/velocity` | High |
-| `dead_stock` | `/analytics/dead-stock` | High |
+| `product_velocity` | `/analytics/velocity` | `/api/analytics/velocity` |
+| `dead_stock` | `/analytics/dead-stock` | `/api/analytics/dead-stock` |
 
 ---
 
