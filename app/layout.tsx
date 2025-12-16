@@ -35,6 +35,18 @@ export default function RootLayout({
                     Inventory
                   </a>
                   <a
+                    href="/locations"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Locations
+                  </a>
+                  <a
+                    href="/transfers"
+                    className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Transfers
+                  </a>
+                  <a
                     href="/orders"
                     className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                   >

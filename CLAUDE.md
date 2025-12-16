@@ -219,7 +219,7 @@ Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-mat
 
 ## Roadmap: View Implementation Status
 
-### ✅ Implemented (4/19)
+### ✅ Implemented (8/19)
 
 | View | Page | API Route |
 |------|------|-----------|
@@ -227,15 +227,10 @@ Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-mat
 | `reorder_alerts` | `/alerts` | `/api/alerts` |
 | `open_orders_unified` | `/orders` (open filter) | `/api/orders?status=open` |
 | `order_history` | `/orders` | `/api/orders` |
-
-### 🚧 Phase 1: Location & Warehouse Management
-
-| View | Planned Page | Priority |
-|------|--------------|----------|
-| `inventory_by_location` | `/locations` | High |
-| `location_stock_summary` | `/locations` (summary tab) | High |
-| `location_reorder_alerts` | `/locations/alerts` | Medium |
-| `transfer_pipeline` | `/transfers` | Medium |
+| `inventory_by_location` | `/locations` | `/api/locations` |
+| `location_stock_summary` | `/locations` | `/api/locations?view=summary` |
+| `location_reorder_alerts` | `/locations/alerts` | `/api/locations/alerts` |
+| `transfer_pipeline` | `/transfers` | `/api/transfers` |
 
 ### 🚧 Phase 2: Advanced Inventory Tracking
 
