@@ -147,19 +147,17 @@ export const db = new Database('./data/inflow.db', { readonly: true });
 ```json
 {
   "dependencies": {
-    "next": "^14",
-    "react": "^18",
+    "next": "^16",
+    "react": "^19",
     "better-sqlite3": "^11"
   },
   "devDependencies": {
-    "inflow-get": "^0.3",
-    "inflow-materialize": "^0.2",
     "@types/better-sqlite3": "^7"
   }
 }
 ```
 
-Note: `inflow-get` and `inflow-materialize` are devDependencies since they're only used in scripts, not at runtime.
+Note: Database is seeded by copying from `inflow-get` project (`cp ~/inflow-get/data/inflow.db data/`). Views are created by `inflow-get` during seeding.
 
 ## Development Workflow
 
@@ -179,3 +177,86 @@ The SQLite file must be included in deployment or seeded on first run. Options:
 - SQLite file contains business data - keep private
 - API routes should add auth middleware for production
 - `.env.local` contains API credentials - never commit
+
+---
+
+## Roadmap: View Implementation Status
+
+### ✅ Implemented (4/19)
+
+| View | Page | API Route |
+|------|------|-----------|
+| `product_inventory_status` | `/inventory` | `/api/inventory` |
+| `reorder_alerts` | `/alerts` | `/api/alerts` |
+| `open_orders_unified` | `/orders` (open filter) | `/api/orders?status=open` |
+| `order_history` | `/orders` | `/api/orders` |
+
+### 🚧 Phase 1: Location & Warehouse Management
+
+| View | Planned Page | Priority |
+|------|--------------|----------|
+| `inventory_by_location` | `/locations` | High |
+| `location_stock_summary` | `/locations` (summary tab) | High |
+| `location_reorder_alerts` | `/locations/alerts` | Medium |
+| `transfer_pipeline` | `/transfers` | Medium |
+
+### 🚧 Phase 2: Advanced Inventory Tracking
+
+| View | Planned Page | Priority |
+|------|--------------|----------|
+| `inventory_detail` | `/inventory/[id]` (detail view) | High |
+| `lot_inventory` | `/lots` | Medium |
+| `serial_inventory` | `/serials` | Medium |
+| `stock_movement_ledger` | `/movements` | Low |
+
+### 🚧 Phase 3: Business Analytics
+
+| View | Planned Page | Priority |
+|------|--------------|----------|
+| `customer_360` | `/customers` | High |
+| `vendor_scorecard` | `/vendors` | High |
+| `product_margin` | `/analytics/margins` | Medium |
+| `category_inventory_summary` | `/analytics/categories` | Medium |
+| `bom_costed` | `/bom` | Low |
+
+### 🚧 Phase 4: Time-Series & Insights
+
+| View | Planned Page | Priority |
+|------|--------------|----------|
+| `product_velocity` | `/analytics/velocity` | High |
+| `dead_stock` | `/analytics/dead-stock` | High |
+
+---
+
+## Implementation Notes
+
+### Adding a New View Page
+
+1. Create API route in `app/api/<view>/route.ts`
+2. Create page in `app/<view>/page.tsx`
+3. Add navigation link in `app/layout.tsx`
+4. Update this roadmap
+
+### Navigation Structure (Planned)
+
+```
+/ (Dashboard)
+├── /inventory          # product_inventory_status
+├── /inventory/[id]     # inventory_detail
+├── /locations          # inventory_by_location, location_stock_summary
+│   └── /locations/alerts   # location_reorder_alerts
+├── /orders             # order_history, open_orders_unified
+├── /transfers          # transfer_pipeline
+├── /alerts             # reorder_alerts
+├── /lots               # lot_inventory
+├── /serials            # serial_inventory
+├── /movements          # stock_movement_ledger
+├── /customers          # customer_360
+├── /vendors            # vendor_scorecard
+├── /bom                # bom_costed
+└── /analytics
+    ├── /margins        # product_margin
+    ├── /categories     # category_inventory_summary
+    ├── /velocity       # product_velocity
+    └── /dead-stock     # dead_stock
+```
