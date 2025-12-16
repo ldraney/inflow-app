@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { orderHistory, openOrdersUnified } from "inflow-materialize/schemas";
 import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -9,18 +10,18 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get("status");
     const limit = searchParams.get("limit");
 
-    let query: string;
     if (status === "open") {
-      query = "SELECT * FROM open_orders_unified";
-    } else {
-      query = "SELECT * FROM order_history";
+      const query = db.select().from(openOrdersUnified).$dynamic();
+      const orders = limit
+        ? query.limit(parseInt(limit, 10)).all()
+        : query.all();
+      return Response.json(orders);
     }
 
-    if (limit) {
-      query += ` LIMIT ${parseInt(limit, 10)}`;
-    }
-
-    const orders = db.prepare(query).all();
+    const query = db.select().from(orderHistory).$dynamic();
+    const orders = limit
+      ? query.limit(parseInt(limit, 10)).all()
+      : query.all();
     return Response.json(orders);
   } catch (error) {
     console.error("Error fetching orders:", error);

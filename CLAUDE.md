@@ -126,9 +126,11 @@ inflow-app/
 ```typescript
 // app/api/alerts/route.ts
 import { db } from '@/lib/db';
+import { reorderAlerts } from 'inflow-materialize/schemas';
 
 export async function GET() {
-  const alerts = db.prepare('SELECT * FROM reorder_alerts').all();
+  const alerts = db.select().from(reorderAlerts).all();
+  // ^? Fully typed!
   return Response.json(alerts);
 }
 ```
@@ -137,9 +139,22 @@ export async function GET() {
 
 ```typescript
 // lib/db.ts
+import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 
-export const db = new Database('./data/inflow.db', { readonly: true });
+const sqlite = new Database('./data/inflow.db', { readonly: true });
+export const db = drizzle(sqlite);
+```
+
+## View Creation
+
+```typescript
+// scripts/materialize.ts
+import { createViews } from 'inflow-materialize';
+import Database from 'better-sqlite3';
+
+const sqlite = new Database('./data/inflow.db');
+createViews(sqlite);
 ```
 
 ## Dependencies
@@ -149,7 +164,9 @@ export const db = new Database('./data/inflow.db', { readonly: true });
   "dependencies": {
     "next": "^16",
     "react": "^19",
-    "better-sqlite3": "^11"
+    "better-sqlite3": "^11",
+    "drizzle-orm": "0.38.4",
+    "inflow-materialize": "^0.3.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7"
@@ -177,6 +194,26 @@ The SQLite file must be included in deployment or seeded on first run. Options:
 - SQLite file contains business data - keep private
 - API routes should add auth middleware for production
 - `.env.local` contains API credentials - never commit
+
+---
+
+## Closed Issues
+
+### Issue #1: Migrate to typed Drizzle integration with inflow-materialize
+
+**Status:** Closed
+
+Migrated from raw `better-sqlite3` queries to typed Drizzle ORM with `inflow-materialize/schemas`.
+
+**Tasks:**
+- [x] Install dependencies: `inflow-materialize@0.3.0`, `drizzle-orm@0.38.4`
+- [x] Rewrite `lib/db.ts` to use Drizzle with better-sqlite3 driver
+- [x] Update `app/api/alerts/route.ts` to use typed schema
+- [x] Update `app/api/inventory/route.ts` to use typed schema
+- [x] Update `app/api/orders/route.ts` to use typed schema
+- [x] Update `scripts/materialize.ts` to use `createViews()` function
+
+**Note:** Must use `drizzle-orm@0.38.4` to match `inflow-materialize`'s peer dependency
 
 ---
 
