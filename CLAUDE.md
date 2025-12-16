@@ -100,23 +100,34 @@ SQLite file lives at `data/inflow.db` (gitignored).
 inflow-app/
 ├── app/
 │   ├── page.tsx                 # Dashboard
+│   ├── layout.tsx               # Navigation + layout
 │   ├── inventory/
 │   │   └── page.tsx             # Inventory list
+│   ├── locations/
+│   │   ├── page.tsx             # Location summary cards + detail
+│   │   └── alerts/
+│   │       └── page.tsx         # Location reorder alerts
+│   ├── transfers/
+│   │   └── page.tsx             # Transfer pipeline
 │   ├── orders/
 │   │   └── page.tsx             # Order history
 │   ├── alerts/
 │   │   └── page.tsx             # Reorder alerts
 │   └── api/
 │       ├── inventory/route.ts
-│       ├── alerts/route.ts
-│       └── ...
+│       ├── locations/
+│       │   ├── route.ts         # inventory_by_location, location_stock_summary
+│       │   └── alerts/route.ts  # location_reorder_alerts
+│       ├── transfers/route.ts   # transfer_pipeline
+│       ├── orders/route.ts      # order_history, open_orders_unified
+│       └── alerts/route.ts      # reorder_alerts
 ├── lib/
-│   └── db.ts                    # Database connection helper
+│   └── db.ts                    # Drizzle database connection
 ├── scripts/
 │   ├── seed.ts                  # inflow-get wrapper
 │   └── materialize.ts           # inflow-materialize wrapper
 ├── data/
-│   └── .gitkeep                 # inflow.db lives here (gitignored)
+│   └── inflow.db                # SQLite database (gitignored)
 ├── .env.local                   # Credentials (gitignored)
 └── CLAUDE.md
 ```
@@ -194,6 +205,23 @@ The SQLite file must be included in deployment or seeded on first run. Options:
 - SQLite file contains business data - keep private
 - API routes should add auth middleware for production
 - `.env.local` contains API credentials - never commit
+
+---
+
+## Next Steps
+
+**Continue implementing views.** The app needs a UI page for each of the 19 views from `inflow-materialize`. Currently 8/19 are done.
+
+**Next up: Phase 2 - Advanced Inventory Tracking**
+
+To implement each view:
+1. Check the schema: `sqlite3 data/inflow.db "PRAGMA table_info(<view_name>);"`
+2. Create API route importing from `inflow-materialize/schemas`
+3. Create page component with table/cards
+4. Add to navigation in `layout.tsx`
+5. Update roadmap below
+
+All schemas are available: `import { <viewName> } from 'inflow-materialize/schemas'`
 
 ---
 
